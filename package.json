@@ -1,0 +1,22 @@
+{
+  "name": "fabric-doodle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electro": "^2.1.1",
+    "electron": "^3.0.4",
+    "fabric": "^2.4.2-b",
+    "lodash.pick": "^4.4.0",
+    "yo-yo": "^1.4.1"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
+  }
+}
