@@ -9,58 +9,43 @@ const importData = require('./lib/import-data')
 
 const blobId = '&QT5YAIrMuMeCYYT1ncJtDMJ09Br9yl3M6+Xb5PERWgU=.sha256'
 
-// Connection((err, server) => {
-//   if (err) throw err
+Connection((err, server) => {
+  if (err) throw err
 
+  document.body.appendChild(BlobParty())
+  document.body.style.background = 'black'
+})
+
+function BlobParty () {
+  var canvas
   const blobParty = html`
-    <div className="BlobParty" style="background: white; width: 100%; height: 100%;">
-      <canvas id="c" height="${config.height}" width="${config.width}" ></canvas>
-      <button onclick=${() => addImage({ fabric, canvas, blobUrl })(blobId)}>Add Image</button>
+    <div className="BlobParty">
+      <canvas id="c" height="${config.height}" width="${config.width}"></canvas>
+      <button onclick=${() => addImage({ canvas, blobUrl })(blobId)}>Add Image</button>
       <button onclick=${() => exportData(canvas)}>Export Data</button>
-      <button onclick=${() => importData({ fabric, canvas, blobUrl })}>Load Save</button>
+      <button onclick=${() => importData({ canvas, blobUrl })}>Load Save</button>
     </div>
   `
 
-  document.body.appendChild(blobParty)
-  document.body.style.background = 'black'
-
-  const canvas = new fabric.Canvas('c')
-// })
-
-/* function BlobParty () { */
-// var canvas
-// const blobParty = html`
-//   <div className="BlobParty" style="background: black; width: 100%; height: 100%;">
-//     <canvas id="c" height="${config.height}" width="${config.width}" ></canvas>
-//     <button onclick=${() => addImage({ fabric, canvas, blobUrl })(blobId)}>Add Image</button>
-//     <button onclick=${() => exportData(canvas)}>Export Data</button>
-//     <button onclick=${() => importData({ fabric, canvas, blobUrl })}>Load Save</button>
-//   </div>
-// `
-
-// canvas = new fabric.Canvas('pb-canvas')
-
-// setCanvas()
-// function setCanvas () {
-//   if (!blobParty.isConnected) return setTimeout(setCanvas, 200)
-//   canvas = new fabric.Canvas('pb-canvas')
-//   debugger
-// }
-// return blobParty
-/* } */
-
-// sbot.meme.search(word, (err, data) => {
-//   if (err) return console.error(err)
-
-//   cb(null, map(data, toSuggestion))
-// })
+  setCanvas()
+  return blobParty
+  function setCanvas () {
+    if (!blobParty.isConnected) return setTimeout(setCanvas, 200)
+    canvas = new fabric.Canvas('c')
+    canvas.fabric = fabric
+  }
+}
 
 function blobUrl (blobId) {
   return 'http://localhost:8989/blobs/get/' + blobId
 }
 
+//
 // - export state
 //   - blob, xy-position, scale, angle
+//   -format
+//     - canvas state: background, size
+//     - obejects
 // - import state
 // - diff states
 
