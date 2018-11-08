@@ -1,22 +1,36 @@
 {
-  "name": "fabric-doodle",
-  "version": "1.0.0",
-  "description": "",
+  "name": "blob-party",
+  "version": "0.0.1",
+  "description": "paint with blobs using your scuttlebutt database",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electro index.js",
+    "test": "standard --fix"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "electro": "^2.1.1",
-    "electron": "^3.0.4",
-    "fabric": "^2.4.2-b",
+    "fabric": "^2.4.3",
     "lodash.pick": "^4.4.0",
+    "suggest-box": "^2.2.3",
     "yo-yo": "^1.4.1"
   },
   "devDependencies": {
+    "electro": "^2.1.1",
+    "electron": "^3.0.4",
+    "ssb-client": "^4.6.0",
     "standard": "^12.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mixmix/blob-party.git"
+  },
+  "keywords": [
+    "blob",
+    "scuttlebutt"
+  ],
+  "author": "mixmix",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/mixmix/blob-party/issues"
+  },
+  "homepage": "https://github.com/mixmix/blob-party#readme"
 }

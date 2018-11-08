@@ -1,100 +1,84 @@
 const html = require('yo-yo')
 const { fabric } = require('fabric')
-const pick = require('lodash.pick')
+const Connection = require('ssb-client')
 
-const HEIGHT = 800
-const WIDTH = 1000
+const config = require('./config')
+const exportData = require('./lib/export-data')
+const addImage = require('./lib/add-image')
+const importData = require('./lib/import-data')
 
-const MAX_INITIAL_IMG_HEIGHT = 300
+const blobId = '&QT5YAIrMuMeCYYT1ncJtDMJ09Br9yl3M6+Xb5PERWgU=.sha256'
 
-const App = html`
-  <div className="App" style="background: black;">
-    <canvas id="c" height="${HEIGHT}" width="${WIDTH}" ></canvas>
-    <button onclick=${addImage}>Add Image</button>
-    <button onclick=${exportData}>Export Data</button>
-    <button onclick=${loadSave}>Load Save</button>
-  </div>
-`
-document.body.appendChild(App)
+// Connection((err, server) => {
+//   if (err) throw err
 
-const canvas = new fabric.Canvas('c')
+  const blobParty = html`
+    <div className="BlobParty" style="background: white; width: 100%; height: 100%;">
+      <canvas id="c" height="${config.height}" width="${config.width}" ></canvas>
+      <button onclick=${() => addImage({ fabric, canvas, blobUrl })(blobId)}>Add Image</button>
+      <button onclick=${() => exportData(canvas)}>Export Data</button>
+      <button onclick=${() => importData({ fabric, canvas, blobUrl })}>Load Save</button>
+    </div>
+  `
 
-function addImage () {
-  const blobId = '&QT5YAIrMuMeCYYT1ncJtDMJ09Br9yl3M6+Xb5PERWgU=.sha256'
+  document.body.appendChild(blobParty)
+  document.body.style.background = 'black'
 
-  fabric.Image.fromURL(
-    blobUrl(blobId),
-    img => {
-      const scaleFactor = img.height > MAX_INITIAL_IMG_HEIGHT
-        ? MAX_INITIAL_IMG_HEIGHT / img.height
-        : 1
+  const canvas = new fabric.Canvas('c')
+// })
 
-      img.scale(scaleFactor)
-      canvas.add(img)
-    },
-    { left: WIDTH / 2 - 100, top: HEIGHT / 3 - MAX_INITIAL_IMG_HEIGHT / 2 }
-  )
-}
+/* function BlobParty () { */
+// var canvas
+// const blobParty = html`
+//   <div className="BlobParty" style="background: black; width: 100%; height: 100%;">
+//     <canvas id="c" height="${config.height}" width="${config.width}" ></canvas>
+//     <button onclick=${() => addImage({ fabric, canvas, blobUrl })(blobId)}>Add Image</button>
+//     <button onclick=${() => exportData(canvas)}>Export Data</button>
+//     <button onclick=${() => importData({ fabric, canvas, blobUrl })}>Load Save</button>
+//   </div>
+// `
 
-function exportData () {
-  const data = canvas.toObject().objects
-    .map(obj => {
-      const _obj = pick(obj, ['src', 'left', 'top', 'scaleX', 'scaleY', 'angle'])
-      _obj.blob = getBlobId(_obj.src)
-      delete _obj.src
-      return _obj
-    })
-  console.log(JSON.stringify(data, null, 2))
-}
+// canvas = new fabric.Canvas('pb-canvas')
 
-function loadSave () {
-  const data = [{
-    left: 332.24,
-    top: 329.54,
-    scaleX: 0.37,
-    scaleY: 0.37,
-    angle: 325.58,
-    blob: '&6thhZj5FPAhcVlTD9qbRiLZlc0subH6tX62q7kXqddc=.sha256'
-  }, {
-    left: 249,
-    top: 511.67,
-    scaleX: 0.26,
-    scaleY: 0.26,
-    angle: 0,
-    blob: '&6thhZj5FPAhcVlTD9qbRiLZlc0subH6tX62q7kXqddc=.sha256'
-  }, {
-    left: 196.42,
-    top: 405.06,
-    scaleX: 0.14,
-    scaleY: 0.14,
-    angle: 28.34,
-    blob: '&6thhZj5FPAhcVlTD9qbRiLZlc0subH6tX62q7kXqddc=.sha256'
-  }]
+// setCanvas()
+// function setCanvas () {
+//   if (!blobParty.isConnected) return setTimeout(setCanvas, 200)
+//   canvas = new fabric.Canvas('pb-canvas')
+//   debugger
+// }
+// return blobParty
+/* } */
 
-  data.forEach(d => {
-    const { left, top, scaleX, scaleY, angle, blob } = d
+// sbot.meme.search(word, (err, data) => {
+//   if (err) return console.error(err)
 
-    fabric.Image.fromURL(
-      blobUrl(blob),
-      img => {
-        img.scale(scaleX)
-        // img.scale(scaleY)
-        canvas.add(img)
-      },
-      { left, top, angle }
-    )
-  })
-}
+//   cb(null, map(data, toSuggestion))
+// })
 
 function blobUrl (blobId) {
   return 'http://localhost:8989/blobs/get/' + blobId
-}
-
-function getBlobId (url) {
-  return url.replace('http://localhost:8989/blobs/get/', '')
 }
 
 // - export state
 //   - blob, xy-position, scale, angle
 // - import state
 // - diff states
+
+// function toSuggestion (value, key) {
+//   const topPick = value[0]
+//   // TODO get a better topPick (filter by user, frequency etc?)
+//   //
+//   // return {
+//   //   image: api.blob.sync.url(key),
+//   //   title: topPick.name,
+//   //   // subtitle: topPick.name,
+//   //   value: '![' + topPick.name + '](' + key + ')'
+//   // }
+//   //
+//   return {
+//     // image:
+//     title: h('img.meme', { src: api.blob.sync.url(key) }),
+//     subtitle: topPick.name,
+//     value: '![' + topPick.name + '](' + key + ')'
+//   }
+/* } */
