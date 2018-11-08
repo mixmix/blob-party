@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "fabric": "^2.4.3",
+    "lodash.map": "^4.6.0",
     "lodash.pick": "^4.4.0",
+    "micro-css": "^2.0.1",
+    "on-load": "^4.0.1",
     "suggest-box": "^2.2.3",
     "yo-yo": "^1.4.1"
   },
